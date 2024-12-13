@@ -1,22 +1,37 @@
 package com.vehiclesSystem.controller;
 
+import com.vehiclesSystem.dao.DatabaseOperation;
 import com.vehiclesSystem.models.Vehicle;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
-import java.util.List;
 
 @Component
 @Scope("prototype")
-public interface VehicleController {
-    Vehicle saveVehicle(Vehicle vehicle) throws SQLException;
+public class VehicleController {
+    @Autowired
+    DatabaseOperation databaseOperation;
 
-    default Boolean deleteVehicle(int id) throws SQLException {
-        return false;
+    public Vehicle saveVehicle(Vehicle vehicle) throws SQLException {
+
+        return this.databaseOperation.saveVehicle(vehicle);
     }
 
-    Boolean updateVehicle(int id,String newBrand)throws SQLException;
-    Vehicle searchVehicleById(int id)throws SQLException;
+
+    public Boolean deleteVehicle(int id) throws SQLException {
+        return this.databaseOperation.deleteVehicle(id);
+    }
+
+
+    public Boolean updateVehicle(int id,String newBrand) throws SQLException {
+        return this.databaseOperation.updateBrand(id,newBrand);
+    }
+
+
+    public Vehicle searchVehicleById(int id) throws SQLException {
+        return this.databaseOperation.searchById(id);
+    }
 
 }

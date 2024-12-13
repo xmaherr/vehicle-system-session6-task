@@ -106,19 +106,8 @@ public class DatabaseOperation {
                 int vehicleId = resultSet.getInt("id");
                 String brand = resultSet.getString("brand");
                 String type = resultSet.getString("type");
+                return new Vehicle(vehicleId,brand,type);
 
-                // Map the type to a corresponding Vehicle implementation
-                Type vehicleType = Type.valueOf(type.toUpperCase());
-                switch (vehicleType) {
-                    case BIKE:
-                        return new Bike(vehicleId, brand,Type.BIKE);
-                    case CAR:
-                        return new Car(vehicleId, brand, Type.CAR);
-                    case PLANE:
-                        return new Plane(vehicleId, brand, Type.PLANE);
-                    default:
-                        throw new IllegalArgumentException("Unknown vehicle type: " + type);
-                }
             } else {
                 System.out.println("Vehicle with id " + id + " not found.");
                 return null;
@@ -131,7 +120,7 @@ public class DatabaseOperation {
     }
 
     @PreDestroy
-    public void disconnectFromDatabase() {
+    void disconnectFromDatabase() {
         if (connection != null) {
             try {
                 connection.close();
